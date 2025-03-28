@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Veículos</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        input, button, select { margin: 5px; padding: 8px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid black; padding: 8px; text-align: left; }
+    </style>
+</head>
+<body>
+    <h2>Gerenciar Montadoras, Nomes e Cores</h2>
+    <input type="text" id="nova_montadora" placeholder="Nova Montadora">
+    <button onclick="adicionarMontadora()">Adicionar Montadora</button>
+    <input type="text" id="novo_nome" placeholder="Novo Nome de Veículo">
+    <button onclick="adicionarNome()">Adicionar Nome</button>
+    <input type="text" id="nova_cor" placeholder="Nova Cor">
+    <button onclick="adicionarCor()">Adicionar Cor</button>
+    
+    <h2>Cadastro de Veículo</h2>
+    <select id="montadora"></select>
+    <select id="nome"></select>
+    <input type="number" id="ano_inicio" placeholder="Ano de Início">
+    <input type="number" id="ano_fim" placeholder="Ano Final">
+    <input type="checkbox" id="ano_unico" onchange="toggleAnoFim()"> Somente esse ano
+    <select id="cor"></select>
+    <input type="text" id="codigo_cor" placeholder="Código da Cor">
+    <input type="text" id="codigo" placeholder="Código">
+    <button onclick="salvarVeiculo()">Salvar</button>
+    
+    <h2>Buscar Veículos</h2>
+    <select id="busca_montadora"></select>
+    <select id="busca_nome"></select>
+    <input type="number" id="busca_ano" placeholder="Ano">
+    <select id="busca_cor"></select>
+    <button onclick="buscarVeiculos()">Buscar</button>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Montadora</th>
+                <th>Nome</th>
+                <th>Ano Início</th>
+                <th>Ano Fim</th>
+                <th>Cor</th>
+                <th>Código da Cor</th>
+                <th>Código</th>
+            </tr>
+        </thead>
+        <tbody id="resultado"></tbody>
+    </table>
+    <script>
+        let db;
+        const request = indexedDB.open("VeiculosDB", 1);
+    
+        request.onupgradeneeded = function (event) {
+            db = event.target.result;
+            const store = db.createObjectStore("veiculos", { keyPath: "id", autoIncrement: true });
+            store.createIndex("montadora", "montadora", { unique: false });
+            store.createIndex("nome", "nome", { unique: false });
+            store.createIndex("ano_inicio", "ano_inicio", { unique: false });
+            store.createIndex("ano_fim", "ano_fim", { unique: false });
+            store.createIndex("cor", "cor", { unique: false });
+        };
+    
+        request.onsuccess = function (event) {
+            db = event.target.result;
+            carregarFiltros();
+            carregarVeiculosCadastrados();
+        };
+    
+        // Função para carregar os filtros com dados salvos
+        function carregarFiltros() {
+            const tx = db.transaction(["veiculos"], "readonly");
+            const store = tx.objectStore("veiculos");
+            const allVehicles = store.getAll();
+    
+            allVehicles.onsuccess = function () {
+                const veiculos = allVehicles.result;
+                let montadoras = new Set();
+                let nomes = new Set();
+                let cores = new Set();
+    
+                veiculos.forEach(veiculo => {
+                    montadoras.add(veiculo.montadora);
+                    nomes.add(veiculo.nome);
+                    cores.add(veiculo.cor);
+                });
+    
+                preencherCampoSelect("busca_montadora", montadoras);
+                preencherCampoSelect("busca_nome", nomes);
+                preencherCampoSelect("busca_cor", cores);
+    
+                preencherCampoSelect("montadora", montadoras);
+                preencherCampoSelect("nome", nomes);
+                preencherCampoSelect("cor", cores);
+            };
+        }
+    
+        // Função para preencher os campos de seleção
+        function preencherCampoSelect(campoId, opcoes) {
+            const select = document.getElementById(campoId);
+            select.innerHTML = "<option value=''>Selecione</option>";
+            opcoes.forEach(opcao => {
+                const option = document.createElement("option");
+                option.value = opcao;
+                option.text = opcao;
+                select.appendChild(option);
+            });
+        }
+    
+        // Função para adicionar nova montadora
+        function adicionarMontadora() {
+            const novaMontadora = document.getElementById("nova_montadora").value;
+            if (novaMontadora) {
+                const tx = db.transaction(["veiculos"], "readwrite");
+                const store = tx.objectStore("veiculos");
+    
+                // Adicionar uma montadora fictícia para facilitar a inserção
+                store.add({ montadora: novaMontadora });
+    
+                tx.oncomplete = function () {
+                    carregarFiltros();
+                    alert("Montadora adicionada com sucesso!");
+                    document.getElementById("nova_montadora").value = "";
+                };
+    
+                tx.onerror = function () {
+                    alert("Erro ao adicionar montadora.");
+                };
+            } else {
+                alert("Digite o nome da montadora.");
+            }
+        }
+
+        // Função para adicionar novo nome de veículo
+        function adicionarNome() {
+            const novoNome = document.getElementById("novo_nome").value;
+            if (novoNome) {
+                const tx = db.transaction(["veiculos"], "readwrite");
+                const store = tx.objectStore("veiculos");
+    
+                // Adicionar um nome fictício para facilitar a inserção
+                store.add({ nome: novoNome });
+    
+                tx.oncomplete = function () {
+                    carregarFiltros();
+                    alert("Nome de veículo adicionado com sucesso!");
+                    document.getElementById("novo_nome").value = "";
+                };
+    
+                tx.onerror = function () {
+                    alert("Erro ao adicionar nome.");
+                };
+            } else {
+                alert("Digite o nome do veículo.");
+            }
+        }
+
+        // Função para adicionar nova cor
+        function adicionarCor() {
+            const novaCor = document.getElementById("nova_cor").value;
+            if (novaCor) {
+                const tx = db.transaction(["veiculos"], "readwrite");
+                const store = tx.objectStore("veiculos");
+    
+                // Adicionar uma cor fictícia para facilitar a inserção
+                store.add({ cor: novaCor });
+    
+                tx.oncomplete = function () {
+                    carregarFiltros();
+                    alert("Cor adicionada com sucesso!");
+                    document.getElementById("nova_cor").value = "";
+                };
+    
+                tx.onerror = function () {
+                    alert("Erro ao adicionar cor.");
+                };
+            } else {
+                alert("Digite o nome da cor.");
+            }
+        }
+
+        // Função para adicionar novo veículo
+        function salvarVeiculo() {
+            const montadora = document.getElementById("montadora").value;
+            const nome = document.getElementById("nome").value;
+            const ano_inicio = parseInt(document.getElementById("ano_inicio").value);
+            const ano_fim = parseInt(document.getElementById("ano_fim").value);
+            const cor = document.getElementById("cor").value;
+            const codigo_cor = document.getElementById("codigo_cor").value;
+            const codigo = document.getElementById("codigo").value;
+    
+            if (montadora && nome && ano_inicio && ano_fim && cor && codigo_cor && codigo) {
+                const tx = db.transaction(["veiculos"], "readwrite");
+                const store = tx.objectStore("veiculos");
+    
+                const veiculo = {
+                    montadora,
+                    nome,
+                    ano_inicio,
+                    ano_fim,
+                    cor,
+                    codigo_cor,
+                    codigo
+                };
+    
+                store.add(veiculo);
+    
+                tx.oncomplete = function () {
+                    carregarFiltros(); // Recarregar filtros
+                    carregarVeiculosCadastrados(); // Recarregar lista de veículos cadastrados
+                    limparCamposCadastro();
+                };
+    
+                tx.onerror = function () {
+                    alert("Erro ao adicionar veículo.");
+                };
+            } else {
+                alert("Preencha todos os campos.");
+            }
+        }
+    
+        // Função para carregar veículos cadastrados
+        function carregarVeiculosCadastrados() {
+            const tx = db.transaction(["veiculos"], "readonly");
+            const store = tx.objectStore("veiculos");
+            const allVehicles = store.getAll();
+    
+            allVehicles.onsuccess = function () {
+                const veiculos = allVehicles.result;
+                const tbody = document.getElementById("resultado");
+                tbody.innerHTML = "";
+    
+                veiculos.forEach(veiculo => {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `<td>${veiculo.montadora}</td><td>${veiculo.nome}</td><td>${veiculo.ano_inicio}</td><td>${veiculo.ano_fim}</td><td>${veiculo.cor}</td><td>${veiculo.codigo_cor}</td><td>${veiculo.codigo}</td>`;
+                    tbody.appendChild(tr);
+                });
+            };
+        }
+
+        // Função para buscar veículos
+        function buscarVeiculos() {
+            const montadora = document.getElementById("busca_montadora").value;
+            const nome = document.getElementById("busca_nome").value;
+            const ano = parseInt(document.getElementById("busca_ano").value) || null;
+            const cor = document.getElementById("busca_cor").value;
+    
+            const tx = db.transaction(["veiculos"], "readonly");
+            const store = tx.objectStore("veiculos");
+    
+            const allVehicles = store.getAll();
+    
+            allVehicles.onsuccess = function () {
+                const veiculos = allVehicles.result;
+                const filteredResults = veiculos.filter(veiculo => {
+                    return (
+                        (!montadora || veiculo.montadora === montadora) &&
+                        (!nome || veiculo.nome === nome) &&
+                        (!ano || (veiculo.ano_inicio <= ano && veiculo.ano_fim >= ano)) &&
+                        (!cor || veiculo.cor === cor)
+                    );
+                });
+                exibirResultados(filteredResults);
+            };
+        }
+
+        // Função para exibir resultados da busca
+        function exibirResultados(veiculos) {
+            const tbody = document.getElementById("resultado");
+            tbody.innerHTML = "";
+            veiculos.forEach(veiculo => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `<td>${veiculo.montadora}</td><td>${veiculo.nome}</td><td>${veiculo.ano_inicio}</td><td>${veiculo.ano_fim}</td><td>${veiculo.cor}</td><td>${veiculo.codigo_cor}</td><td>${veiculo.codigo}</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Função para limpar os campos de cadastro
+        function limparCamposCadastro() {
+            document.getElementById("montadora").value = '';
+            document.getElementById("nome").value = '';
+            document.getElementById("ano_inicio").value = '';
+            document.getElementById("ano_fim").value = '';
+            document.getElementById("cor").value = '';
+            document.getElementById("codigo_cor").value = '';
+            document.getElementById("codigo").value = '';
+        }
+    </script>
+</body>
+</html>
