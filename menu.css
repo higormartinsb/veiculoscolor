@@ -1,0 +1,91 @@
+/* Layout principal */
+#layout {
+    display: flex; /* Flexbox para colocar o menu lateral e o conteúdo ao lado */
+    min-height: 100vh; /* Garante que o layout ocupe a altura total da tela */
+}
+
+/* Menu lateral */
+#menu-lateral {
+    min-width: 200px; /* Defina uma largura fixa para o menu lateral */
+    max-width: 200px;
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#menu-lateral ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#menu-lateral ul li {
+    margin: 10px 0;
+}
+
+#menu-lateral ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+/* Conteúdo principal */
+#conteudo {
+    flex-grow: 1; /* Faz com que o conteúdo ocupe o espaço restante */
+    padding: 20px;
+    background-color: aliceblue;
+    box-sizing: border-box;
+}
+
+/* Container gerenciador */
+#campo-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Espaço entre os inputs */
+    background-color: aliceblue;
+    padding: 5% 10%;
+}
+
+/* Cada input e seu respectivo botão */
+.input-group {
+    display: flex;
+    flex-direction: column;   /* Organiza o input e o botão em coluna */
+    width: 30%;               /* Ajuste a largura para até 3 campos lado a lado */
+    box-sizing: border-box;
+}
+
+/* Inputs do gerenciador */
+input, button, select {
+    margin: 5px 0;
+    padding: 8px;
+    width: 100%;  /* Cada input e botão ocupa 100% da largura do seu contêiner */
+    box-sizing: border-box;
+}
+
+/* Botões abaixo dos inputs */
+button {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 960px) {
+    #layout {
+        flex-direction: column; /* Empilha o menu e o conteúdo em telas pequenas */
+    }
+
+    #menu-lateral {
+        max-width: 100%; /* O menu ocupa toda a largura em telas menores */
+        min-width: 100%;
+        text-align: center;
+    }
+
+    #conteudo {
+        padding: 10px; /* Ajuste o padding para telas menores */
+    }
+
+    .input-group {
+        width: 100%; /* Faz cada grupo ocupar toda a largura */
+    }
+}

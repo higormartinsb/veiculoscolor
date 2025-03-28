@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="config.css"> <!-- Vinculando o CSS -->
+    <title>Sistema de Veículos</title>
+</head>
+<body>
+    <div id="layout">
+        <!-- Menu lateral -->
+        <nav id="menu-lateral">
+            <ul>
+                <li><a href="index.html">Buscar</a></li>
+                <li><a href="Gerenciador.html">Gerenciar</a></li>
+                <li><a href="CadastroVeiculos.html">Cadastrar Veiculos</a></li>
+                <li><a href="#">Sair</a></li>
+            </ul>
+        </nav>
+
+        <!-- Conteúdo principal -->
+        <div id="conteudo">
+            <h2>Buscar Veículos</h2>
+            <div id="pesquisa-veiculo">
+                <div class="input-group"><span>Montadora</span><select id="busca_montadora"></select></div>
+                <div class="input-group"><span>Veiculo</span><select id="busca_nome"></select></div>
+                <div class="input-group"><span>Ano. Veiculo</span><input type="number" id="busca_ano" placeholder="Ano"></div>
+                <div class="input-group"><span>Cor. Docum</span><select id="busca_cor"></select></div>
+                <button onclick="buscarVeiculos()" class="botao-buscar">Buscar</button>
+            </div>
+        
+            <div id="resultado-container">
+                <table style="border: solid 1px #ccc;">
+                    <thead>
+                        <tr style="background-color: blue;">
+                            <th>Montadora</th>
+                            <th>Nome</th>
+                            <th>Ano Início</th>
+                            <th>Ano Fim</th>
+                            <th>Cor Documento</th>
+                            <th>Código da Cor</th>
+                            <th>Código Universal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultado"></tbody>
+                </table>
+            </div>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+</html>
