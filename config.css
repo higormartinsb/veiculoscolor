@@ -16,6 +16,12 @@ h2 {
     padding-bottom: 50px;
 }
 
+.btn{
+    max-width: 19%;
+    background-color: blue;
+    color: white;
+}
+
 /* Container gerenciador */
 #campo-container {
     display: flex;
@@ -138,7 +144,7 @@ th, td {
 
     .input-group {
         width: 100%;  /* Faz cada grupo ocupar toda a largura */
-        display: flex;
+        display: contents;
         flex-direction: row;
         justify-content: center;
         align-items: center;
@@ -146,5 +152,9 @@ th, td {
 
     h2{
         text-align: center;
+    }
+
+    .btn{
+        max-width: 100%;
     }
 }
