@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0056b3;
+            padding-top: 60px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        .navbar {
+            background-color: #0056b3;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            height: 60px;
+        }
+        .container-box {
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 1000px;
+            margin-top: 10px;
+        }
+        .form-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        .form-group {
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+        }
+        .btn-container {
+            margin-top: 10px;
+            margin-bottom: 80px;
+        }
+        /* Linha de separação personalizada */
+        .separator {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .separator::before,
+        .separator::after {
+            content: "";
+            flex: 1;
+            border-bottom: 2px solid black;
+            margin: 0 10px;
+        }
+        /* Centralização dos botões */
+        .backup-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark">
+        <div class="container-fluid d-flex align-items-center justify-content-center">
+            <div class="d-flex align-items-center">
+                <a class="navbar-brand me-3" href="buscar.html">Buscar</a>
+                <a class="navbar-brand me-3" href="gerenciar.html">Gerenciador</a>
+                <a class="navbar-brand me-3" href="Cadastrar.html">Cadastro</a>
+                <a class="navbar-brand me-3" href="#">Ajuda</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container d-flex justify-content-center">
+        <div class="container-box text-center">
+<!-- Página Gerenciar -->
+<div class="container">
+    <h2>Gerenciador</h2>
+
+    <!-- Formulário de Cadastro -->
+    <div class="row">
+      <div class="col-md-4">
+        <label for="montadora">Montadora</label>
+        <input type="text" id="montadora" class="form-control" placeholder="Digite a Montadora">
+        <button id="btnCadastrarMontadora" class="btn btn-primary mt-2">Cadastrar Montadora</button>
+      </div>
+  
+      <div class="col-md-4">
+        <label for="veiculo">Veículo</label>
+        <input type="text" id="veiculo" class="form-control" placeholder="Digite o Veículo">
+        <button id="btnCadastrarVeiculo" class="btn btn-primary mt-2">Cadastrar Veículo</button>
+      </div>
+  
+      <div class="col-md-4">
+        <label for="cor">Cor</label>
+        <input type="text" id="cor" class="form-control" placeholder="Digite a Cor">
+        <button id="btnCadastrarCor" class="btn btn-primary mt-2">Cadastrar Cor</button>
+      </div>
+    </div>
+  
+    <!-- Botões Exportar e Importar -->
+    <div class="mt-4">
+      <button id="btnExportar" class="btn btn-success">Exportar</button>
+      <button id="btnImportar" class="btn btn-warning">Importar</button>
+    </div>
+  </div>
+  
+  <script>
+    // Carregar dados armazenados no localStorage e atualizar dropdowns
+    function carregarDados() {
+      let montadoras = JSON.parse(localStorage.getItem('montadoras')) || [];
+      let veiculos = JSON.parse(localStorage.getItem('veiculos')) || [];
+      let cores = JSON.parse(localStorage.getItem('cores')) || [];
+      
+      const selectMontadora = document.getElementById('montadora');
+      const selectVeiculo = document.getElementById('veiculo');
+      const selectCor = document.getElementById('cor');
+  
+      // Preencher inputs com os dados
+      // (Aqui não precisamos realmente "preencher", pois é apenas um campo de texto, mas vamos mostrar os dados cadastrados)
+      selectMontadora.setAttribute('placeholder', montadoras.join(', ') || 'Nenhuma Montadora cadastrada');
+      selectVeiculo.setAttribute('placeholder', veiculos.join(', ') || 'Nenhum Veículo cadastrado');
+      selectCor.setAttribute('placeholder', cores.join(', ') || 'Nenhuma Cor cadastrada');
+    }
+  
+    // Cadastrar dados no localStorage
+    function cadastrar(nome, tipo) {
+      let dados = JSON.parse(localStorage.getItem(tipo)) || [];
+  
+      if (dados.includes(nome)) {
+        alert(`${nome} já cadastrado!`);
+      } else {
+        dados.push(nome);
+        localStorage.setItem(tipo, JSON.stringify(dados));
+        alert(`${nome} cadastrado com sucesso!`);
+        carregarDados(); // Atualiza a lista com os novos valores
+      }
+    }
+  
+    // Eventos de cadastro
+    document.getElementById('btnCadastrarMontadora').addEventListener('click', () => {
+      const montadora = document.getElementById('montadora').value;
+      if (montadora) {
+        cadastrar(montadora, 'montadoras');
+      }
+    });
+  
+    document.getElementById('btnCadastrarVeiculo').addEventListener('click', () => {
+      const veiculo = document.getElementById('veiculo').value;
+      if (veiculo) {
+        cadastrar(veiculo, 'veiculos');
+      }
+    });
+  
+    document.getElementById('btnCadastrarCor').addEventListener('click', () => {
+      const cor = document.getElementById('cor').value;
+      if (cor) {
+        cadastrar(cor, 'cores');
+      }
+    });
+  
+    // Função de exportação (simples para este exemplo)
+    document.getElementById('btnExportar').addEventListener('click', () => {
+      const backup = {
+        montadoras: JSON.parse(localStorage.getItem('montadoras')),
+        veiculos: JSON.parse(localStorage.getItem('veiculos')),
+        cores: JSON.parse(localStorage.getItem('cores')),
+      };
+  
+      const blob = new Blob([JSON.stringify(backup)], { type: 'application/json' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'backup.json';
+      link.click();
+    });
+  
+    // Função de importação (simples para este exemplo)
+    document.getElementById('btnImportar').addEventListener('click', () => {
+      const inputFile = document.createElement('input');
+      inputFile.type = 'file';
+      inputFile.accept = '.json';
+      
+      inputFile.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = () => {
+            const data = JSON.parse(reader.result);
+            localStorage.setItem('montadoras', JSON.stringify(data.montadoras || []));
+            localStorage.setItem('veiculos', JSON.stringify(data.veiculos || []));
+            localStorage.setItem('cores', JSON.stringify(data.cores || []));
+            carregarDados(); // Atualiza a lista com os dados importados
+          };
+          reader.readAsText(file);
+        }
+      });
+  
+      inputFile.click();
+    });
+  
+    // Carregar dados ao iniciar a página
+    carregarDados();
+  </script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
