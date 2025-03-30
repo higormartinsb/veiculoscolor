@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciador</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--Exportar em Excel-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+    <!--Exportar em PDF-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         body {
             background-color: #0056b3;
@@ -114,10 +118,108 @@
   
     <!-- Botões Exportar e Importar -->
     <div class="mt-4">
-      <button id="btnExportar" class="btn btn-success">Exportar</button>
-      <button id="btnImportar" class="btn btn-warning">Importar</button>
+      <button id="btnExportar" class="btn btn-success">Exportar Backup</button>
+      <button id="btnImportar" class="btn btn-warning">Importar Backup</button>
     </div>
   </div>
+
+  <button onclick="exportarParaExcel()" class="btn btn-success mt-4">Exportar para Excel</button>
+  <button onclick="exportarParaPDF()" class="btn btn-danger mt-4">Exportar para PDF</button>
+
+  <!--Exportar em Excel-->
+  <script>
+function exportarParaExcel() {
+    let veiculosCadastrados = JSON.parse(localStorage.getItem('veiculosCadastrados')) || [];
+    if (veiculosCadastrados.length === 0) {
+        alert("Não há dados para exportar.");
+        return;
+    }
+
+    const wb = XLSX.utils.book_new();
+    const ws_data = [];
+    
+    // Cabeçalhos
+    ws_data.push([
+        "Montadora", "Veículo", "Cor", "Ano Início", "Ano Fim", "Cod. Cor", "Cod. Universal", "Imagem"
+    ]);
+
+    veiculosCadastrados.forEach(veiculo => {
+        ws_data.push([
+            veiculo.montadora,
+            veiculo.veiculo,
+            veiculo.cor,
+            veiculo.anoInicio,
+            veiculo.anoFim,
+            veiculo.codCor,
+            veiculo.codUniversal,
+            veiculo.imagem
+        ]);
+    });
+
+    const ws = XLSX.utils.aoa_to_sheet(ws_data);
+    
+    // Configurar a quebra automática de linha nas células
+    const range = XLSX.utils.decode_range(ws['!ref']); // Pega o intervalo da planilha
+    for (let row = range.s.r; row <= range.e.r; row++) {
+        for (let col = range.s.c; col <= range.e.c; col++) {
+            const cell = ws[XLSX.utils.encode_cell({r: row, c: col})];
+            if (cell && typeof cell.v === 'string') {
+                // Configura para que a célula tenha quebra de linha automática
+                cell.s = { alignment: { wrapText: true } };
+            }
+        }
+    }
+
+    // Salvar como Excel
+    XLSX.utils.book_append_sheet(wb, ws, "Veículos");
+    XLSX.writeFile(wb, "veiculos_completo.xlsx");
+}
+
+</script>
+
+<!--Exportar em PDF-->
+<script>
+function exportarParaPDF() {
+  let veiculosCadastrados = JSON.parse(localStorage.getItem('veiculosCadastrados')) || [];
+  if (veiculosCadastrados.length === 0) {
+      alert("Não há dados para exportar.");
+      return;
+  }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  let y = 10;
+
+  doc.setFont("helvetica", "normal");
+  doc.text("Relatório Completo de Veículos", 10, y);
+  y += 10;
+
+  // Definir a largura máxima para o texto
+  const larguraMaxima = 180; // Tamanho máximo da linha em mm
+
+  veiculosCadastrados.forEach((veiculo, index) => {
+      // Gerar o texto completo para o veículo
+      let textoVeiculo = `${index + 1}. ${veiculo.montadora} - ${veiculo.veiculo} - Cor: ${veiculo.cor} (Código: ${veiculo.codCor}) - Código Universal: ${veiculo.codUniversal} - Ano Início: ${veiculo.anoInicio} - Ano Fim: ${veiculo.anoFim}`;
+
+      // Quebrar o texto para se ajustar à largura máxima
+      const textoQuebrado = doc.splitTextToSize(textoVeiculo, larguraMaxima);
+
+      // Adicionar o texto quebrado ao documento
+      doc.text(textoQuebrado, 10, y);
+
+      // Atualizar a posição vertical
+      y += textoQuebrado.length * 7; // Ajusta o espaçamento entre as linhas
+
+      // Se o texto ultrapassar a página, adiciona uma nova página
+      if (y > 270) {
+          doc.addPage();
+          y = 10;
+      }
+  });
+
+  doc.save("veiculos_completo.pdf");
+}
+</script>
   
   <script>
     // Carregar dados armazenados no localStorage e atualizar dropdowns

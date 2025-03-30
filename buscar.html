@@ -49,6 +49,20 @@
         .form-select, .form-control {
             width: 100%;
         }
+
+        @keyframes piscar {
+    0% { opacity: 1; }       /* 100% visível no início */
+    50% { opacity: 0.7; }    /* Meio da animação, opacidade reduzida */
+    100% { opacity: 1; }     /* 100% visível no final */
+}
+
+/* Aplicando a animação ao texto do código de cor */
+.codCor {
+    font-weight: bold;  /* Negrito */
+    color: red;         /* Cor vermelha */
+    animation: piscar 0.7s infinite;  /* A animação vai durar 1 segundo e será infinita */
+}
+
     </style>
 </head>
 <body>
@@ -69,175 +83,183 @@
 
             <!-- Tabela de Pesquisa -->
             <div class="row">
-              <div class="col-md-3">
-                <label for="pesquisaMontadora">Selecione Montadora</label>
-                <select id="pesquisaMontadora" class="form-control">
-                  <option value="">Selecione Montadora</option>
-                </select>
-              </div>
-          
-              <div class="col-md-3">
-                <label for="pesquisaVeiculo">Selecione Veículo</label>
-                <select id="pesquisaVeiculo" class="form-control">
-                  <option value="">Selecione Veículo</option>
-                </select>
-              </div>
-          
-              <div class="col-md-3">
-                <label for="pesquisaCor">Selecione Cor</label>
-                <select id="pesquisaCor" class="form-control">
-                  <option value="">Selecione Cor</option>
-                </select>
-              </div>
-          
-              <div class="col-md-3">
-                <label for="anoInicioPesquisa">Ano Início</label>
-                <input type="number" id="anoInicioPesquisa" class="form-control" placeholder="Ano Início">
-              </div>
-          
-              <div class="col-md-3">
-                <label for="anoFimPesquisa">Ano Fim</label>
-                <input type="number" id="anoFimPesquisa" class="form-control" placeholder="Ano Fim">
-              </div>
-          
-              <div class="col-md-12 mt-4">
-                <button id="btnBuscar" class="btn btn-primary w-100">Buscar</button>
-              </div>
-            </div>
-          
-<!-- Tabela de Resultados -->
-<h3 class="mt-4">Resultados da Pesquisa</h3>
-<div class="table-responsive">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Montadora</th>
-                <th>Veículo</th>
-                <th>Cor</th>
-                <th>Ano Início</th>
-                <th>Ano Fim</th>
-                <th>Cod. Cor</th>
-                <th>Cod. Universal</th>
-                <th>Imagem</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody id="resultadosTabela">
-            <!-- Os resultados da pesquisa aparecerão aqui -->
-        </tbody>
-    </table>
-</div>
+                <div class="col-md-3">
+                    <label for="pesquisaMontadora">Selecione Montadora</label>
+                    <select id="pesquisaMontadora" class="form-control">
+                        <option value="">Selecione Montadora</option>
+                    </select>
+                </div>
 
-          
-          <script>
-            // Função para carregar os dados dos dropdowns de pesquisa
-            function carregarOpcoesBusca() {
-              let montadoras = JSON.parse(localStorage.getItem('montadoras')) || [];
-              let veiculos = JSON.parse(localStorage.getItem('veiculos')) || [];
-              let cores = JSON.parse(localStorage.getItem('cores')) || [];
-          
-              const selectMontadora = document.getElementById('pesquisaMontadora');
-              const selectVeiculo = document.getElementById('pesquisaVeiculo');
-              const selectCor = document.getElementById('pesquisaCor');
-          
-              // Preencher dropdown Montadora
-              montadoras.forEach(montadora => {
+                <div class="col-md-3">
+                    <label for="pesquisaVeiculo">Selecione Veículo</label>
+                    <select id="pesquisaVeiculo" class="form-control">
+                        <option value="">Selecione Veículo</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="pesquisaCor">Selecione Cor</label>
+                    <select id="pesquisaCor" class="form-control">
+                        <option value="">Selecione Cor</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="anoInicioPesquisa">Ano Início</label>
+                    <input type="number" id="anoInicioPesquisa" class="form-control" placeholder="Ano Início">
+                </div>
+
+                <div class="col-md-3">
+                    <label for="anoFimPesquisa">Ano Fim</label>
+                    <input type="number" id="anoFimPesquisa" class="form-control" placeholder="Ano Fim">
+                </div>
+
+                <div class="col-md-12 mt-4">
+                    <button id="btnBuscar" class="btn btn-primary w-40">Pesquisar Cor</button>
+                </div>
+            </div>
+
+            <!-- Tabela de Resultados -->
+            <h3 class="mt-4">Resultados da Pesquisa</h3>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Montadora</th>
+                            <th>Veículo</th>
+                            <th>Cor</th>
+                            <th>Ano Início</th>
+                            <th>Ano Fim</th>
+                            <th>Cod. Cor</th>
+                            <th>Cod. Universal</th>
+                            <th>Imagem</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultadosTabela">
+                        <!-- Os resultados da pesquisa aparecerão aqui -->
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Função para carregar os dados dos dropdowns de pesquisa
+        function carregarOpcoesBusca() {
+            let montadoras = JSON.parse(localStorage.getItem('montadoras')) || [];
+            let veiculos = JSON.parse(localStorage.getItem('veiculos')) || [];
+            let cores = JSON.parse(localStorage.getItem('cores')) || [];
+
+            const selectMontadora = document.getElementById('pesquisaMontadora');
+            const selectVeiculo = document.getElementById('pesquisaVeiculo');
+            const selectCor = document.getElementById('pesquisaCor');
+
+            // Preencher dropdown Montadora
+            montadoras.forEach(montadora => {
                 const option = document.createElement('option');
                 option.value = montadora;
                 option.textContent = montadora;
                 selectMontadora.appendChild(option);
-              });
-          
-              // Preencher dropdown Veículo
-              veiculos.forEach(veiculo => {
+            });
+
+            // Preencher dropdown Veículo
+            veiculos.forEach(veiculo => {
                 const option = document.createElement('option');
                 option.value = veiculo;
                 option.textContent = veiculo;
                 selectVeiculo.appendChild(option);
-              });
-          
-              // Preencher dropdown Cor
-              cores.forEach(cor => {
+            });
+
+            // Preencher dropdown Cor
+            cores.forEach(cor => {
                 const option = document.createElement('option');
                 option.value = cor;
                 option.textContent = cor;
                 selectCor.appendChild(option);
-              });
-            }
-          
-            // Função para buscar os veículos cadastrados e exibir na tabela
-            document.getElementById('btnBuscar').addEventListener('click', () => {
-              const montadora = document.getElementById('pesquisaMontadora').value;
-              const veiculo = document.getElementById('pesquisaVeiculo').value;
-              const cor = document.getElementById('pesquisaCor').value;
-              const anoInicio = document.getElementById('anoInicioPesquisa').value;
-              const anoFim = document.getElementById('anoFimPesquisa').value;
-          
-              let veiculosCadastrados = JSON.parse(localStorage.getItem('veiculosCadastrados')) || [];
-              let resultadosFiltrados = veiculosCadastrados;
-          
-              if (montadora) {
-                resultadosFiltrados = resultadosFiltrados.filter(item => item.montadora === montadora);
-              }
-              if (veiculo) {
-                resultadosFiltrados = resultadosFiltrados.filter(item => item.veiculo === veiculo);
-              }
-              if (cor) {
-                resultadosFiltrados = resultadosFiltrados.filter(item => item.cor === cor);
-              }
-              if (anoInicio) {
-                resultadosFiltrados = resultadosFiltrados.filter(item => item.anoInicio <= anoInicio);
-              }
-              if (anoFim) {
-                resultadosFiltrados = resultadosFiltrados.filter(item => item.anoFim >= anoFim);
-              }
-          
-              exibirResultados(resultadosFiltrados);
             });
-          
-            // Função para exibir os resultados na tabela
-            function exibirResultados(resultados) {
-              const tabelaResultados = document.getElementById('resultadosTabela');
-              tabelaResultados.innerHTML = ''; // Limpar a tabela antes de preencher
-          
-              if (resultados.length === 0) {
+        }
+
+        // Função para buscar os veículos cadastrados e exibir na tabela
+        document.getElementById('btnBuscar').addEventListener('click', () => {
+            const montadora = document.getElementById('pesquisaMontadora').value;
+            const veiculo = document.getElementById('pesquisaVeiculo').value;
+            const cor = document.getElementById('pesquisaCor').value;
+            const anoInicio = document.getElementById('anoInicioPesquisa').value;
+            const anoFim = document.getElementById('anoFimPesquisa').value;
+
+            let veiculosCadastrados = JSON.parse(localStorage.getItem('veiculosCadastrados')) || [];
+            let resultadosFiltrados = veiculosCadastrados;
+
+            if (montadora) {
+                resultadosFiltrados = resultadosFiltrados.filter(item => item.montadora === montadora);
+            }
+            if (veiculo) {
+                resultadosFiltrados = resultadosFiltrados.filter(item => item.veiculo === veiculo);
+            }
+            if (cor) {
+                resultadosFiltrados = resultadosFiltrados.filter(item => item.cor === cor);
+            }
+
+            // Filtro de ano
+            if (anoInicio) {
+                resultadosFiltrados = resultadosFiltrados.filter(item => 
+                    (item.anoInicio <= anoInicio && item.anoFim >= anoInicio) || 
+                    (item.anoInicio <= anoFim && item.anoFim >= anoFim) ||
+                    (item.anoInicio >= anoInicio && item.anoFim <= anoFim)
+                );
+            } 
+            if (anoFim) {
+                resultadosFiltrados = resultadosFiltrados.filter(item => item.anoFim >= anoFim);
+            }
+
+            exibirResultados(resultadosFiltrados);
+        });
+
+        // Função para exibir os resultados na tabela
+        function exibirResultados(resultados) {
+            const tabelaResultados = document.getElementById('resultadosTabela');
+            tabelaResultados.innerHTML = ''; // Limpar a tabela antes de preencher
+
+            if (resultados.length === 0) {
                 tabelaResultados.innerHTML = '<tr><td colspan="9" class="text-center">Nenhum resultado encontrado.</td></tr>';
                 return;
-              }
-          
-              resultados.forEach((veiculo, index) => {
+            }
+
+            resultados.forEach((veiculo, index) => {
                 const tr = document.createElement('tr');
-          
+
                 tr.innerHTML = `
-                  <td>${veiculo.montadora}</td>
-                  <td>${veiculo.veiculo}</td>
-                  <td>${veiculo.cor}</td>
-                  <td>${veiculo.anoInicio}</td>
-                  <td>${veiculo.anoFim}</td>
-                  <td>${veiculo.codCor}</td>
-                  <td>${veiculo.codUniversal}</td>
-                  <td><img src="${veiculo.imagem}" alt="Imagem do Veículo" width="50"></td>
-                  <td>
-                    <button class="btn btn-danger btn-sm" onclick="excluirVeiculo(${index})">Excluir</button>
-                  </td>
+                    <td>${veiculo.montadora}</td>
+                    <td>${veiculo.veiculo}</td>
+                    <td>${veiculo.cor}</td>
+                    <td>${veiculo.anoInicio}</td>
+                    <td>${veiculo.anoFim}</td>
+                    <td><span class="codCor">${veiculo.codCor}</span></td>
+                    <td>${veiculo.codUniversal}</td>
+                    <td><img src="${veiculo.imagem}" alt="Imagem do Veículo" width="50"></td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="excluirVeiculo(${index})">Excluir</button>
+                    </td>
                 `;
                 tabelaResultados.appendChild(tr);
-              });
-            }
-          
-            // Função para excluir um veículo
-            function excluirVeiculo(index) {
-              let veiculosCadastrados = JSON.parse(localStorage.getItem('veiculosCadastrados')) || [];
-              veiculosCadastrados.splice(index, 1); // Remover o item da lista
-              localStorage.setItem('veiculosCadastrados', JSON.stringify(veiculosCadastrados)); // Atualizar o armazenamento local
-          
-              alert('Veículo excluído com sucesso!');
-              exibirResultados(veiculosCadastrados); // Atualizar a tabela
-            }
-          
-            // Carregar opções e dados ao iniciar a página
-            carregarOpcoesBusca();
-          </script>
+            });
+        }
+
+        // Função para excluir um veículo
+        function excluirVeiculo(index) {
+            let veiculosCadastrados = JSON.parse(localStorage.getItem('veiculosCadastrados')) || [];
+            veiculosCadastrados.splice(index, 1); // Remover o item da lista
+            localStorage.setItem('veiculosCadastrados', JSON.stringify(veiculosCadastrados)); // Atualizar o armazenamento local
+
+            alert('Veículo excluído com sucesso!');
+            exibirResultados(veiculosCadastrados); // Atualizar a tabela
+        }
+
+        // Carregar opções e dados ao iniciar a página
+        carregarOpcoesBusca();
+    </script>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
