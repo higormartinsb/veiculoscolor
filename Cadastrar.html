@@ -1,253 +1,123 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f4f7fa;
-            padding-top: 60px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-        }
-        .navbar {
-            background-color: #0056b3;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            height: 60px;
-        }
-        .container-box {
-            background-color: white;
-            padding: 30px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 900px;
-            margin-top: 10px;
-            border-radius: 8px;
-        }
-        .form-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        .form-group {
-            flex: 1;
-            min-width: 250px;
-        }
-        .checkbox-container {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .checkbox-container input {
-            width: auto;
-        }
-        .btn-container {
-            text-align: center;
-            margin-top: 30px;
-        }
-        .btn-primary {
-            width: 200px;
-            padding: 12px;
-        }
-        .form-control {
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .form-group label {
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-        .checkbox-container label {
-            font-size: 14px;
-        }
-        /* Esconde o campo de Ano Fim por padrão */
-        #anoFim {
-            display: block;
-        }
-        #anoFim.hidden {
-            display: none;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastrar</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar navbar-dark">
-        <div class="container-fluid d-flex align-items-center justify-content-center">
-            <div class="d-flex align-items-center">
-                <a class="navbar-brand me-3" href="buscar.html">Buscar</a>
-                <a class="navbar-brand me-3" href="gerenciar.html">Gerenciador</a>
-                <a class="navbar-brand me-3" href="Cadastrar.html">Cadastro</a>
-                <a class="navbar-brand me-3" href="#">Ajuda</a>
-            </div>
+  <nav class="navbar navbar-dark" style="background-color: #0056b3;">
+    <div class="container-fluid d-flex align-items-center justify-content-center">
+      <div class="d-flex align-items-center">
+        <a class="navbar-brand me-3" href="buscar.html">Buscar</a>
+        <a class="navbar-brand me-3" href="gerenciar.html">Gerenciador</a>
+        <a class="navbar-brand me-3" href="Cadastrar.html">Cadastro</a>
+        <a class="navbar-brand me-3" href="#">Ajuda</a>
+      </div>
+    </div>
+  </nav>
+  <div class="container d-flex justify-content-center">
+    <div class="container-box text-center" style="background:white;padding:30px;box-shadow:0 4px 8px rgba(0,0,0,0.1);width:90%;max-width:900px;margin-top:10px;border-radius:8px;">
+      <h2>Cadastrar Veículo Cor</h2>
+      <div class="row">
+        <div class="col-md-4">
+          <label for="montadora">Selecione Montadora</label>
+          <select id="montadora" class="form-control"></select>
         </div>
-    </nav>
-    
-    <div class="container d-flex justify-content-center">
-        <div class="container-box text-center">
-            <h2>Cadastrar Veículo Cor</h2>
+        <div class="col-md-4">
+          <label for="veiculo">Selecione Veículo</label>
+          <select id="veiculo" class="form-control"></select>
+        </div>
+        <div class="col-md-4">
+          <label for="cor">Selecione Cor</label>
+          <select id="cor" class="form-control"></select>
+        </div>
+        <div class="col-md-4 mt-4">
+          <label for="codCor">Cod. Cor</label>
+          <input type="text" id="codCor" class="form-control" placeholder="Digite o Cod. Cor">
+        </div>
+        <div class="col-md-4 mt-4">
+          <label for="codUniversal">Cod. Universal</label>
+          <input type="text" id="codUniversal" class="form-control" placeholder="Digite o Cod. Universal">
+        </div>
+        <div class="col-md-4 mt-4">
+          <label for="anoInicio">Ano Início</label>
+          <input type="number" id="anoInicio" class="form-control" placeholder="Digite o Ano Início">
+        </div>
+        <div class="col-md-4 mt-4">
+          <label for="anoFim">Ano Fim</label>
+          <input type="number" id="anoFim" class="form-control" placeholder="Digite o Ano Fim">
+        </div>
+        <div class="col-md-4 mt-4">
+          <label for="imagem">Imagem (ou tirar foto)</label>
+          <input type="file" id="imagem" class="form-control" accept="image/*">
+        </div>
+        <div class="col-md-12 mt-4">
+          <label for="corVeiculoAno">Cor deste veículo somente este ano</label>
+          <input type="checkbox" id="corVeiculoAno">
+        </div>
+      </div>
+      <button id="btnCadastrarVeiculoCor" class="btn btn-success mt-4">Cadastrar Veículo Cor</button>
+    </div>
+  </div>
+  <script type="module">
+    import { db } from './firebase-config.js';
+    import { collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-            <!-- Formulário de Cadastro -->
-            <div class="row">
-              <div class="col-md-4">
-                <label for="montadora">Selecione Montadora</label>
-                <select id="montadora" class="form-control">
-                  <option value="">Selecione Montadora</option>
-                </select>
-              </div>
-          
-              <div class="col-md-4">
-                <label for="veiculo">Selecione Veículo</label>
-                <select id="veiculo" class="form-control">
-                  <option value="">Selecione Veículo</option>
-                </select>
-              </div>
-          
-              <div class="col-md-4">
-                <label for="cor">Selecione Cor</label>
-                <select id="cor" class="form-control">
-                  <option value="">Selecione Cor</option>
-                </select>
-              </div>
-          
-              <div class="col-md-4 mt-4">
-                <label for="codCor">Cod. Cor</label>
-                <input type="text" id="codCor" class="form-control" placeholder="Digite o Cod. Cor">
-              </div>
-          
-              <div class="col-md-4 mt-4">
-                <label for="codUniversal">Cod. Universal</label>
-                <input type="text" id="codUniversal" class="form-control" placeholder="Digite o Cod. Universal">
-              </div>
-          
-              <div class="col-md-4 mt-4">
-                <label for="anoInicio">Ano Início</label>
-                <input type="number" id="anoInicio" class="form-control" placeholder="Digite o Ano Início">
-              </div>
-          
-              <div class="col-md-4 mt-4">
-                <label for="anoFim">Ano Fim</label>
-                <input type="number" id="anoFim" class="form-control" placeholder="Digite o Ano Fim">
-              </div>
-          
-              <div class="col-md-4 mt-4">
-                <label for="imagem">Imagem (ou tirar foto)</label>
-                <input type="file" id="imagem" class="form-control" accept="image/*">
-              </div>
-          
-              <div class="col-md-12 mt-4">
-                <label for="corVeiculoAno">Cor deste veículo somente este ano</label>
-                <input type="checkbox" id="corVeiculoAno">
-              </div>
-            </div>
-          
-            <button id="btnCadastrarVeiculoCor" class="btn btn-success mt-4">Cadastrar Veículo Cor</button>
-          </div>
-          
-          <script>
-            // Função para carregar os dados dos dropdowns com as opções registradas
-            function carregarOpcoes() {
-              let montadoras = JSON.parse(localStorage.getItem('montadoras')) || [];
-              let veiculos = JSON.parse(localStorage.getItem('veiculos')) || [];
-              let cores = JSON.parse(localStorage.getItem('cores')) || [];
-          
-              const selectMontadora = document.getElementById('montadora');
-              const selectVeiculo = document.getElementById('veiculo');
-              const selectCor = document.getElementById('cor');
-          
-              // Preencher dropdown Montadora
-              montadoras.forEach(montadora => {
-                const option = document.createElement('option');
-                option.value = montadora;
-                option.textContent = montadora;
-                selectMontadora.appendChild(option);
-              });
-          
-              // Preencher dropdown Veículo
-              veiculos.forEach(veiculo => {
-                const option = document.createElement('option');
-                option.value = veiculo;
-                option.textContent = veiculo;
-                selectVeiculo.appendChild(option);
-              });
-          
-              // Preencher dropdown Cor
-              cores.forEach(cor => {
-                const option = document.createElement('option');
-                option.value = cor;
-                option.textContent = cor;
-                selectCor.appendChild(option);
-              });
-            }
-          
-            // Função de Cadastro de Veículo Cor
-            document.getElementById('btnCadastrarVeiculoCor').addEventListener('click', () => {
-              const montadora = document.getElementById('montadora').value;
-              const veiculo = document.getElementById('veiculo').value;
-              const cor = document.getElementById('cor').value;
-              const codCor = document.getElementById('codCor').value;
-              const codUniversal = document.getElementById('codUniversal').value;
-              const anoInicio = document.getElementById('anoInicio').value;
-              const anoFim = document.getElementById('anoFim').value;
-              const corVeiculoAno = document.getElementById('corVeiculoAno').checked;
-              const imagem = document.getElementById('imagem').files[0];
-          
-              if (!montadora || !veiculo || !cor || !anoInicio || !codCor || !codUniversal) {
-                alert('Preencha todos os campos obrigatórios!');
-                return;
-              }
-          
-              const veiculoCor = {
-                montadora,
-                veiculo,
-                cor,
-                codCor,
-                codUniversal,
-                anoInicio,
-                anoFim: corVeiculoAno ? anoInicio : anoFim, // Se for "Ano Único", fim será igual ao início
-                corVeiculoAno,
-                imagem: imagem ? URL.createObjectURL(imagem) : null, // Se houver imagem, converte para URL
-              };
-          
-              // Salvar no LocalStorage
-              let veiculosCadastrados = JSON.parse(localStorage.getItem('veiculosCadastrados')) || [];
-              veiculosCadastrados.push(veiculoCor);
-              localStorage.setItem('veiculosCadastrados', JSON.stringify(veiculosCadastrados));
-          
-              alert('Veículo Cor cadastrado com sucesso!');
-            });
-          
-            // Carregar opções ao iniciar a página
-            carregarOpcoes();
-          </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Função para esconder/mostrar o campo "Ano Fim"
-        document.getElementById('corExclusiva').addEventListener('change', function() {
-            var anoFim = document.getElementById('anoFim');
-            var corExclusivaLabel = document.querySelector('.checkbox-container label');
-
-            if (this.checked) {
-                anoFim.classList.add('hidden');
-                corExclusivaLabel.style.marginTop = "20px"; // Ajuste a margem quando esconder o campo
-            } else {
-                anoFim.classList.remove('hidden');
-                corExclusivaLabel.style.marginTop = "0"; // Restaura a margem
-            }
+    async function carregarOpcoes() {
+      // Carrega opções das coleções do Firestore
+      const selects = [
+        { id: 'montadora', coll: 'montadoras' },
+        { id: 'veiculo', coll: 'veiculos' },
+        { id: 'cor', coll: 'cores' }
+      ];
+      for (const s of selects) {
+        const select = document.getElementById(s.id);
+        select.innerHTML = '<option value="">Selecione</option>';
+        const snap = await getDocs(collection(db, s.coll));
+        snap.forEach(doc => {
+          const opt = document.createElement('option');
+          opt.value = doc.data().nome;
+          opt.textContent = doc.data().nome;
+          select.appendChild(opt);
         });
-    </script>
+      }
+    }
+
+    document.getElementById('btnCadastrarVeiculoCor').addEventListener('click', async () => {
+      const montadora = document.getElementById('montadora').value;
+      const veiculo = document.getElementById('veiculo').value;
+      const cor = document.getElementById('cor').value;
+      const codCor = document.getElementById('codCor').value;
+      const codUniversal = document.getElementById('codUniversal').value;
+      const anoInicio = document.getElementById('anoInicio').value;
+      const anoFim = document.getElementById('anoFim').value;
+      const corVeiculoAno = document.getElementById('corVeiculoAno').checked;
+      // Imagem: não faz upload neste exemplo
+      const imagem = document.getElementById('imagem').files[0];
+
+      if (!montadora || !veiculo || !cor || !anoInicio || !codCor || !codUniversal) {
+        alert('Preencha todos os campos obrigatórios!');
+        return;
+      }
+
+      const veiculoCor = {
+        montadora, veiculo, cor, codCor, codUniversal,
+        anoInicio, anoFim: corVeiculoAno ? anoInicio : anoFim,
+        corVeiculoAno,
+        imagem: imagem ? imagem.name : null // Só salva o nome do arquivo
+      };
+
+      try {
+        await addDoc(collection(db, "veiculosCadastrados"), veiculoCor);
+        alert('Veículo Cor cadastrado com sucesso!');
+      } catch (e) {
+        alert('Erro ao cadastrar: ' + e.message);
+      }
+    });
+
+    carregarOpcoes();
+  </script>
 </body>
 </html>

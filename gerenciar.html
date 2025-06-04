@@ -1,323 +1,74 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerenciador</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!--Exportar em Excel-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
-    <!--Exportar em PDF-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <style>
-        body {
-            background-color: #0056b3;
-            padding-top: 60px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-        }
-        .navbar {
-            background-color: #0056b3;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            height: 60px;
-        }
-        .container-box {
-            background-color: white;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 1000px;
-            margin-top: 10px;
-        }
-        .form-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 15px;
-        }
-        .form-group {
-            flex: 1;
-            min-width: 250px;
-            text-align: center;
-        }
-        .btn-container {
-            margin-top: 10px;
-            margin-bottom: 80px;
-        }
-        /* Linha de separação personalizada */
-        .separator {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            margin: 20px 0;
-            font-weight: bold;
-            font-size: 18px;
-        }
-        .separator::before,
-        .separator::after {
-            content: "";
-            flex: 1;
-            border-bottom: 2px solid black;
-            margin: 0 10px;
-        }
-        /* Centralização dos botões */
-        .backup-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 10px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerenciador</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar navbar-dark">
-        <div class="container-fluid d-flex align-items-center justify-content-center">
-            <div class="d-flex align-items-center">
-                <a class="navbar-brand me-3" href="buscar.html">Buscar</a>
-                <a class="navbar-brand me-3" href="gerenciar.html">Gerenciador</a>
-                <a class="navbar-brand me-3" href="Cadastrar.html">Cadastro</a>
-                <a class="navbar-brand me-3" href="#">Ajuda</a>
-            </div>
-        </div>
-    </nav>
-    
-    <div class="container d-flex justify-content-center">
-        <div class="container-box text-center">
-<!-- Página Gerenciar -->
-<div class="container">
-    <h2>Gerenciador</h2>
-
-    <!-- Formulário de Cadastro -->
-    <div class="row">
-      <div class="col-md-4">
-        <label for="montadora">Montadora</label>
-        <input type="text" id="montadora" class="form-control" placeholder="Digite a Montadora">
-        <button id="btnCadastrarMontadora" class="btn btn-primary mt-2">Cadastrar Montadora</button>
-      </div>
-  
-      <div class="col-md-4">
-        <label for="veiculo">Veículo</label>
-        <input type="text" id="veiculo" class="form-control" placeholder="Digite o Veículo">
-        <button id="btnCadastrarVeiculo" class="btn btn-primary mt-2">Cadastrar Veículo</button>
-      </div>
-  
-      <div class="col-md-4">
-        <label for="cor">Cor</label>
-        <input type="text" id="cor" class="form-control" placeholder="Digite a Cor">
-        <button id="btnCadastrarCor" class="btn btn-primary mt-2">Cadastrar Cor</button>
+  <nav class="navbar navbar-dark" style="background-color: #0056b3;">
+    <div class="container-fluid d-flex align-items-center justify-content-center">
+      <div class="d-flex align-items-center">
+        <a class="navbar-brand me-3" href="buscar.html">Buscar</a>
+        <a class="navbar-brand me-3" href="gerenciar.html">Gerenciador</a>
+        <a class="navbar-brand me-3" href="Cadastrar.html">Cadastro</a>
+        <a class="navbar-brand me-3" href="#">Ajuda</a>
       </div>
     </div>
-  
-    <!-- Botões Exportar e Importar -->
-    <div class="mt-4">
-      <button id="btnExportar" class="btn btn-success">Exportar Backup</button>
-      <button id="btnImportar" class="btn btn-warning">Importar Backup</button>
+  </nav>
+  <div class="container d-flex justify-content-center" style="margin-top:80px;">
+    <div class="container-box text-center" style="background:white;padding:20px;box-shadow:0 0 10px rgba(0,0,0,0.1);width:90%;max-width:1000px;">
+      <h2>Gerenciador</h2>
+      <div class="row">
+        <div class="col-md-4">
+          <label for="montadora">Montadora</label>
+          <input type="text" id="montadora" class="form-control" placeholder="Digite a Montadora">
+          <button id="btnCadastrarMontadora" class="btn btn-primary mt-2">Cadastrar Montadora</button>
+        </div>
+        <div class="col-md-4">
+          <label for="veiculo">Veículo</label>
+          <input type="text" id="veiculo" class="form-control" placeholder="Digite o Veículo">
+          <button id="btnCadastrarVeiculo" class="btn btn-primary mt-2">Cadastrar Veículo</button>
+        </div>
+        <div class="col-md-4">
+          <label for="cor">Cor</label>
+          <input type="text" id="cor" class="form-control" placeholder="Digite a Cor">
+          <button id="btnCadastrarCor" class="btn btn-primary mt-2">Cadastrar Cor</button>
+        </div>
+      </div>
     </div>
   </div>
+  <script type="module">
+    import { db } from './firebase-config.js';
+    import { collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-  <button onclick="exportarParaExcel()" class="btn btn-success mt-4">Exportar para Excel</button>
-  <button onclick="exportarParaPDF()" class="btn btn-danger mt-4">Exportar para PDF</button>
-
-  <!--Exportar em Excel-->
-  <script>
-function exportarParaExcel() {
-    let veiculosCadastrados = JSON.parse(localStorage.getItem('veiculosCadastrados')) || [];
-    if (veiculosCadastrados.length === 0) {
-        alert("Não há dados para exportar.");
-        return;
-    }
-
-    const wb = XLSX.utils.book_new();
-    const ws_data = [];
-    
-    // Cabeçalhos
-    ws_data.push([
-        "Montadora", "Veículo", "Cor", "Ano Início", "Ano Fim", "Cod. Cor", "Cod. Universal", "Imagem"
-    ]);
-
-    veiculosCadastrados.forEach(veiculo => {
-        ws_data.push([
-            veiculo.montadora,
-            veiculo.veiculo,
-            veiculo.cor,
-            veiculo.anoInicio,
-            veiculo.anoFim,
-            veiculo.codCor,
-            veiculo.codUniversal,
-            veiculo.imagem
-        ]);
-    });
-
-    const ws = XLSX.utils.aoa_to_sheet(ws_data);
-    
-    // Configurar a quebra automática de linha nas células
-    const range = XLSX.utils.decode_range(ws['!ref']); // Pega o intervalo da planilha
-    for (let row = range.s.r; row <= range.e.r; row++) {
-        for (let col = range.s.c; col <= range.e.c; col++) {
-            const cell = ws[XLSX.utils.encode_cell({r: row, c: col})];
-            if (cell && typeof cell.v === 'string') {
-                // Configura para que a célula tenha quebra de linha automática
-                cell.s = { alignment: { wrapText: true } };
-            }
-        }
-    }
-
-    // Salvar como Excel
-    XLSX.utils.book_append_sheet(wb, ws, "Veículos");
-    XLSX.writeFile(wb, "veiculos_completo.xlsx");
-}
-
-</script>
-
-<!--Exportar em PDF-->
-<script>
-function exportarParaPDF() {
-  let veiculosCadastrados = JSON.parse(localStorage.getItem('veiculosCadastrados')) || [];
-  if (veiculosCadastrados.length === 0) {
-      alert("Não há dados para exportar.");
-      return;
-  }
-
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-  let y = 10;
-
-  doc.setFont("helvetica", "normal");
-  doc.text("Relatório Completo de Veículos", 10, y);
-  y += 10;
-
-  // Definir a largura máxima para o texto
-  const larguraMaxima = 180; // Tamanho máximo da linha em mm
-
-  veiculosCadastrados.forEach((veiculo, index) => {
-      // Gerar o texto completo para o veículo
-      let textoVeiculo = `${index + 1}. ${veiculo.montadora} - ${veiculo.veiculo} - Cor: ${veiculo.cor} (Código: ${veiculo.codCor}) - Código Universal: ${veiculo.codUniversal} - Ano Início: ${veiculo.anoInicio} - Ano Fim: ${veiculo.anoFim}`;
-
-      // Quebrar o texto para se ajustar à largura máxima
-      const textoQuebrado = doc.splitTextToSize(textoVeiculo, larguraMaxima);
-
-      // Adicionar o texto quebrado ao documento
-      doc.text(textoQuebrado, 10, y);
-
-      // Atualizar a posição vertical
-      y += textoQuebrado.length * 7; // Ajusta o espaçamento entre as linhas
-
-      // Se o texto ultrapassar a página, adiciona uma nova página
-      if (y > 270) {
-          doc.addPage();
-          y = 10;
-      }
-  });
-
-  doc.save("veiculos_completo.pdf");
-}
-</script>
-  
-  <script>
-    // Carregar dados armazenados no localStorage e atualizar dropdowns
-    function carregarDados() {
-      let montadoras = JSON.parse(localStorage.getItem('montadoras')) || [];
-      let veiculos = JSON.parse(localStorage.getItem('veiculos')) || [];
-      let cores = JSON.parse(localStorage.getItem('cores')) || [];
-      
-      const selectMontadora = document.getElementById('montadora');
-      const selectVeiculo = document.getElementById('veiculo');
-      const selectCor = document.getElementById('cor');
-  
-      // Preencher inputs com os dados
-      // (Aqui não precisamos realmente "preencher", pois é apenas um campo de texto, mas vamos mostrar os dados cadastrados)
-      selectMontadora.setAttribute('placeholder', montadoras.join(', ') || 'Nenhuma Montadora cadastrada');
-      selectVeiculo.setAttribute('placeholder', veiculos.join(', ') || 'Nenhum Veículo cadastrado');
-      selectCor.setAttribute('placeholder', cores.join(', ') || 'Nenhuma Cor cadastrada');
-    }
-  
-    // Cadastrar dados no localStorage
-    function cadastrar(nome, tipo) {
-      let dados = JSON.parse(localStorage.getItem(tipo)) || [];
-  
-      if (dados.includes(nome)) {
+    async function cadastrar(nome, tipo) {
+      if (!nome) return;
+      // Verifica se já existe (não permite duplicados)
+      const snap = await getDocs(collection(db, tipo));
+      let existe = false;
+      snap.forEach(doc => { if (doc.data().nome === nome) existe = true; });
+      if (existe) {
         alert(`${nome} já cadastrado!`);
-      } else {
-        dados.push(nome);
-        localStorage.setItem(tipo, JSON.stringify(dados));
-        alert(`${nome} cadastrado com sucesso!`);
-        carregarDados(); // Atualiza a lista com os novos valores
+        return;
       }
+      await addDoc(collection(db, tipo), { nome });
+      alert(`${nome} cadastrado com sucesso!`);
     }
-  
-    // Eventos de cadastro
+
     document.getElementById('btnCadastrarMontadora').addEventListener('click', () => {
-      const montadora = document.getElementById('montadora').value;
-      if (montadora) {
-        cadastrar(montadora, 'montadoras');
-      }
+      const montadora = document.getElementById('montadora').value.trim();
+      cadastrar(montadora, 'montadoras');
     });
-  
     document.getElementById('btnCadastrarVeiculo').addEventListener('click', () => {
-      const veiculo = document.getElementById('veiculo').value;
-      if (veiculo) {
-        cadastrar(veiculo, 'veiculos');
-      }
+      const veiculo = document.getElementById('veiculo').value.trim();
+      cadastrar(veiculo, 'veiculos');
     });
-  
     document.getElementById('btnCadastrarCor').addEventListener('click', () => {
-      const cor = document.getElementById('cor').value;
-      if (cor) {
-        cadastrar(cor, 'cores');
-      }
+      const cor = document.getElementById('cor').value.trim();
+      cadastrar(cor, 'cores');
     });
-  
-    // Função de exportação (simples para este exemplo)
-    document.getElementById('btnExportar').addEventListener('click', () => {
-      const backup = {
-        montadoras: JSON.parse(localStorage.getItem('montadoras')),
-        veiculos: JSON.parse(localStorage.getItem('veiculos')),
-        cores: JSON.parse(localStorage.getItem('cores')),
-      };
-  
-      const blob = new Blob([JSON.stringify(backup)], { type: 'application/json' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'backup.json';
-      link.click();
-    });
-  
-    // Função de importação (simples para este exemplo)
-    document.getElementById('btnImportar').addEventListener('click', () => {
-      const inputFile = document.createElement('input');
-      inputFile.type = 'file';
-      inputFile.accept = '.json';
-      
-      inputFile.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = () => {
-            const data = JSON.parse(reader.result);
-            localStorage.setItem('montadoras', JSON.stringify(data.montadoras || []));
-            localStorage.setItem('veiculos', JSON.stringify(data.veiculos || []));
-            localStorage.setItem('cores', JSON.stringify(data.cores || []));
-            carregarDados(); // Atualiza a lista com os dados importados
-          };
-          reader.readAsText(file);
-        }
-      });
-  
-      inputFile.click();
-    });
-  
-    // Carregar dados ao iniciar a página
-    carregarDados();
   </script>
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
